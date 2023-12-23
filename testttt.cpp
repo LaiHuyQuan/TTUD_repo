@@ -1,41 +1,44 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
 
-// Định nghĩa cấu trúc để lưu thông tin về mỗi phần tử
-struct Task {
-    int start_time;
-    int end_time;
-};
+using namespace std;
 
-// Hàm so sánh để sắp xếp theo thời gian bắt đầu
-bool compareByStartTime(const Task& a, const Task& b) {
-    return a.start_time < b.start_time;
+void inputArray(int arr[], int size) {
+    for (int i = 0; i < size; ++i) {
+        cin >> arr[i];
+    }
+}
+
+int findMaxLengthIncreasingSubsequence(int arr[], int n) {
+    if (n == 0) {
+        return 0;
+    }
+
+    int maxLength = 1;
+    int currentLength = 1;
+
+    for (int i = 1; i < n; ++i) {
+        if (arr[i] > arr[i - 1]) {
+            currentLength++;
+        } else {
+            maxLength = max(maxLength, currentLength);
+            currentLength = 1;
+        }
+    }
+
+    maxLength = max(maxLength, currentLength);
+
+    return maxLength;
 }
 
 int main() {
-    int num_tasks;
-    std::cout << "Nhập số lượng công việc: ";
-    std::cin >> num_tasks;
+    const int size = 15;
+    int arr[size];
 
-    std::vector<Task> tasks;
-    for (int i = 0; i < num_tasks; i++) {
-        Task task;
-        std::cout << "Nhập thời gian bắt đầu cho công việc " << i + 1 << ": ";
-        std::cin >> task.start_time;
-        std::cout << "Nhập thời gian kết thúc cho công việc " << i + 1 << ": ";
-        std::cin >> task.end_time;
-        tasks.push_back(task);
-    }
+    inputArray(arr, size);
 
-    // Sắp xếp mảng theo thời gian bắt đầu tăng dần
-    std::sort(tasks.begin(), tasks.end(), compareByStartTime);
+    int maxLength = findMaxLengthIncreasingSubsequence(arr, size);
 
-    // In ra mảng sau khi sắp xếp
-    std::cout << "Danh sách công việc sau khi sắp xếp:" << std::endl;
-    for (const Task& task : tasks) {
-        std::cout << "Start Time: " << task.start_time << ", End Time: " << task.end_time << std::endl;
-    }
+    cout << maxLength << endl;
 
     return 0;
 }

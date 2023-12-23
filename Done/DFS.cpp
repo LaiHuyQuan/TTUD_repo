@@ -28,6 +28,11 @@ void dfs(int u){
 
 int main(){
     input();
+    for (int  i: adj)
+    {
+        cout << i;
+    }
+    
     for(int i = 1; i <= n; i++){
         if(!visited[i]){
             dfs(i);
