@@ -1,44 +1,34 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-void inputArray(int arr[], int size) {
-    for (int i = 0; i < size; ++i) {
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> arr(n);
+
+    for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
-}
 
-int findMaxLengthIncreasingSubsequence(int arr[], int n) {
-    if (n == 0) {
-        return 0;
-    }
+    int count = 0; // Biến đếm số lượng bộ số thỏa mãn điều kiện
 
-    int maxLength = 1;
-    int currentLength = 1;
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            int sum = arr[i] + arr[j];
 
-    for (int i = 1; i < n; ++i) {
-        if (arr[i] > arr[i - 1]) {
-            currentLength++;
-        } else {
-            maxLength = max(maxLength, currentLength);
-            currentLength = 1;
+            // Tim phan tu co gia tri bang tong cua 2 so con lai
+            auto it = find(arr.begin(), arr.end(), sum);
+            if (it != arr.end()) {
+                count++;
+            }
         }
     }
 
-    maxLength = max(maxLength, currentLength);
-
-    return maxLength;
-}
-
-int main() {
-    const int size = 15;
-    int arr[size];
-
-    inputArray(arr, size);
-
-    int maxLength = findMaxLengthIncreasingSubsequence(arr, size);
-
-    cout << maxLength << endl;
+    cout << count << endl;
 
     return 0;
 }
